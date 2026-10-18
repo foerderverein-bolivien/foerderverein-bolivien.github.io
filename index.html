@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Förderverein Bolivianische Straßenkinder</title>
+  <meta name="description" content="Wir unterstützen Straßenkinder in El Alto, Bolivien – mit Unterkunft, Bildung und Zukunft.">
+
+  <!-- Google Fonts: Lora (Serif, Überschriften) + Inter (Sans-serif, Fließtext) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* =============================================
+       DESIGN-TOKENS — hier zentral anpassen
+       ============================================= */
+    :root {
+      --farbe-hintergrund:   #F7F4EF; /* warmes Off-White */
+      --farbe-text:          #1C1A17; /* fast-schwarz, warm */
+      --farbe-text-weich:    #6B6560; /* gedämpftes Grau-Braun */
+      --farbe-akzent:        #1B4F72; /* tiefes Andenblau */
+      --farbe-akzent-hell:   #D6E8F5; /* helles Andenblau für Flächen */
+      --farbe-spenden:       #E07B39; /* Terracotta für Spenden-CTA */
+      --farbe-spenden-hover: #C96A2A;
+      --farbe-linie:         #DDD9D3;
+
+      --schrift-kopf:        'Lora', Georgia, serif;
+      --schrift-text:        'Inter', system-ui, sans-serif;
+
+      --radius:              6px;
+      --max-breite:          1080px;
+      --abstand-sektion:     4rem;
+    }
+
+    /* =============================================
+       RESET & BASIS
+       ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--schrift-text);
+      background: var(--farbe-hintergrund);
+      color: var(--farbe-text);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    img { max-width: 100%; display: block; }
+    a   { color: inherit; }
+
+    /* =============================================
+       NAVIGATION
+       ============================================= */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--farbe-hintergrund);
+      border-bottom: 1px solid var(--farbe-linie);
+      padding: 0 1.5rem;
+    }
+
+    .nav-inner {
+      max-width: var(--max-breite);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
+
+    .nav-logo {
+      font-family: var(--schrift-kopf);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--farbe-akzent);
+      text-decoration: none;
+      line-height: 1.2;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--farbe-text-weich);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--farbe-text); }
+
+    .nav-links a.aktiv  { color: var(--farbe-akzent); }
+
+    .btn-spenden-nav {
+      background: var(--farbe-spenden);
+      color: #fff !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: var(--radius);
+      font-weight: 500 !important;
+      transition: background 0.15s !important;
+    }
+
+    .btn-spenden-nav:hover { background: var(--farbe-spenden-hover) !important; }
+
+    /* =============================================
+       HAUPT-LAYOUT-WRAPPER
+       ============================================= */
+    .seite {
+      max-width: var(--max-breite);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* =============================================
+       HERO — STARTSEITE
+       ============================================= */
+    .hero {
+      padding: var(--abstand-sektion) 1.5rem;
+      max-width: var(--max-breite);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-family: var(--schrift-kopf);
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--farbe-akzent);
+      margin-bottom: 1rem;
+    }
+
+    .hero-text p {
+      font-size: 1.05rem;
+      color: var(--farbe-text-weich);
+      max-width: 42ch;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-bild {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--farbe-akzent-hell);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--farbe-akzent);
+      font-size: 0.875rem;
+    }
+
+    /* =============================================
+       BUTTONS
+       ============================================= */
+    .btn {
+      display: inline-block;
+      padding: 0.7rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 500;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.1s;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-primaer {
+      background: var(--farbe-spenden);
+      color: #fff;
+    }
+
+    .btn-primaer:hover {
+      background: var(--farbe-spenden-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-sekundaer {
+      background: transparent;
+      color: var(--farbe-akzent);
+      border: 1.5px solid var(--farbe-akzent);
+      margin-left: 0.75rem;
+    }
+
+    .btn-sekundaer:hover { background: var(--farbe-akzent-hell); }
+
+    /* =============================================
+       ZAHLEN-LEISTE
+       ============================================= */
+    .zahlen-leiste {
+      background: var(--farbe-akzent);
+      color: #fff;
+      padding: 2rem 1.5rem;
+    }
+
+    .zahlen-inner {
+      max-width: var(--max-breite);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      text-align: center;
+    }
+
+    .zahl-wert {
+      font-family: var(--schrift-kopf);
+      font-size: 2rem;
+      font-weight: 600;
+      display: block;
+    }
+
+    .zahl-label {
+      font-size: 0.85rem;
+      opacity: 0.8;
+    }
+
+    /* =============================================
+       SEKTION-TITEL
+       ============================================= */
+    .sektion {
+      padding: var(--abstand-sektion) 1.5rem;
+      max-width: var(--max-breite);
+      margin: 0 auto;
+    }
+
+    .sektion-titel {
+      font-family: var(--schrift-kopf);
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--farbe-akzent);
+      margin-bottom: 0.4rem;
+    }
+
+    .sektion-untertitel {
+      font-size: 0.95rem;
+      color: var(--farbe-text-weich);
+      margin-bottom: 2rem;
+      max-width: 55ch;
+    }
+
+    .trennlinie {
+      border: none;
+      border-top: 1px solid var(--farbe-linie);
+      margin: 0;
+    }
+
+    /* =============================================
+       KARTEN (für Projekte / Aktuelles)
+       ============================================= */
+    .karten-raster {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .karte {
+      background: #fff;
+      border: 1px solid var(--farbe-linie);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .karte-bild {
+      aspect-ratio: 16/9;
+      background: var(--farbe-akzent-hell);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--farbe-akzent);
+      font-size: 0.8rem;
+    }
+
+    .karte-inhalt { padding: 1.1rem 1.25rem; }
+
+    .karte-titel {
+      font-family: var(--schrift-kopf);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+
+    .karte-text {
+      font-size: 0.875rem;
+      color: var(--farbe-text-weich);
+      line-height: 1.6;
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    footer {
+      background: var(--farbe-text);
+      color: rgba(255,255,255,0.75);
+      padding: 2.5rem 1.5rem;
+      margin-top: var(--abstand-sektion);
+    }
+
+    .footer-inner {
+      max-width: var(--max-breite);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .footer-name {
+      font-family: var(--schrift-kopf);
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 0.4rem; }
+    .footer-links a {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: #fff; }
+
+    .footer-kopf {
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 0.75rem;
+    }
+
+    .footer-unten {
+      max-width: var(--max-breite);
+      margin: 1.5rem auto 0;
+      padding-top: 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.35);
+    }
+
+    /* =============================================
+       RESPONSIVE
+       ============================================= */
+    @media (max-width: 700px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+      .hero-bild { display: none; } /* Bild auf Mobilgeräten ausblenden */
+      .zahlen-inner { grid-template-columns: 1fr; gap: 1.5rem; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .nav-links { display: none; } /* Hamburger-Menü kommt später */
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =============================================
+       NAVIGATION
+       ============================================= -->
+  <nav class="nav" role="navigation" aria-label="Hauptnavigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Förderverein<br>Bolivianische Straßenkinder</a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="aktiv">Startseite</a></li>
+        <li><a href="ueber-uns.html">Über uns</a></li>
+        <li><a href="projekte.html">Projekte</a></li>
+        <li><a href="aktuelles.html">Aktuelles</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+        <li><a href="spenden.html" class="btn-spenden-nav">Jetzt spenden</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <!-- =============================================
+       HERO
+       ============================================= -->
+  <main>
+    <section class="hero" aria-labelledby="hero-titel">
+      <div class="hero-text">
+        <h1 id="hero-titel">Kinder in Bolivien brauchen eine Chance</h1>
+        <p>Seit über 20 Jahren unterstützen wir Straßenkinder in El Alto mit Unterkunft, Mahlzeiten und Bildung. Jede Spende wirkt direkt vor Ort.</p>
+        <a href="spenden.html" class="btn btn-primaer">Jetzt spenden</a>
+        <a href="projekte.html" class="btn btn-sekundaer">Unsere Projekte</a>
+      </div>
+      <div class="hero-bild" aria-hidden="true">
+        <!-- Hier später ein echtes Foto einfügen: -->
+        <!-- <img src="bilder/hero.jpg" alt="Kinder in El Alto, Bolivien"> -->
+        Foto kommt hier hin
+      </div>
+    </section>
+
+    <hr class="trennlinie">
+
+    <!-- =============================================
+         ZAHLEN-LEISTE
+         ============================================= -->
+    <section class="zahlen-leiste" aria-label="Unsere Arbeit in Zahlen">
+      <div class="zahlen-inner">
+        <div>
+          <span class="zahl-wert">20+</span>
+          <span class="zahl-label">Jahre aktiv</span>
+        </div>
+        <div>
+          <span class="zahl-wert">97 %</span>
+          <span class="zahl-label">der Spenden gehen direkt nach Bolivien</span>
+        </div>
+        <div>
+          <span class="zahl-wert">El Alto</span>
+          <span class="zahl-label">Bolivien — wo wir helfen</span>
+        </div>
+      </div>
+    </section>
+
+    <hr class="trennlinie">
+
+    <!-- =============================================
+         PROJEKTE-VORSCHAU
+         ============================================= -->
+    <section class="sektion" aria-labelledby="projekte-titel">
+      <h2 class="sektion-titel" id="projekte-titel">Was wir tun</h2>
+      <p class="sektion-untertitel">Unsere Arbeit in El Alto umfasst drei Bereiche, die ineinandergreifen.</p>
+
+      <div class="karten-raster">
+        <article class="karte">
+          <div class="karte-bild" aria-hidden="true">Foto Unterkunft</div>
+          <div class="karte-inhalt">
+            <h3 class="karte-titel">Unterkunft & Sicherheit</h3>
+            <p class="karte-text">Ein sicherer Ort zum Schlafen, Essen und Ankommen — das ist die Grundlage für alles andere.</p>
+          </div>
+        </article>
+
+        <article class="karte">
+          <div class="karte-bild" aria-hidden="true">Foto Schule</div>
+          <div class="karte-inhalt">
+            <h3 class="karte-titel">Bildung & Schule</h3>
+            <p class="karte-text">Schulmaterial, Nachhilfe und die Möglichkeit, die Schule zu besuchen — Bildung ist der Weg aus der Armut.</p>
+          </div>
+        </article>
+
+        <article class="karte">
+          <div class="karte-bild" aria-hidden="true">Foto Alltag</div>
+          <div class="karte-inhalt">
+            <h3 class="karte-titel">Alltag & Gemeinschaft</h3>
+            <p class="karte-text">Gemeinsame Mahlzeiten, Freizeitaktivitäten und das Gefühl dazuzugehören — Kindheit ermöglichen.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- =============================================
+       FOOTER
+       ============================================= -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-name">Förderverein zur Unterstützung<br>bolivianischer Straßenkinder e.V.</p>
+        <p style="font-size: 0.85rem; line-height: 1.6;">Wir sind ein eingetragener gemeinnütziger Verein.<br>Spenden sind steuerlich absetzbar.</p>
+      </div>
+      <div>
+        <p class="footer-kopf">Seiten</p>
+        <ul class="footer-links">
+          <li><a href="ueber-uns.html">Über uns</a></li>
+          <li><a href="projekte.html">Projekte</a></li>
+          <li><a href="aktuelles.html">Aktuelles</a></li>
+          <li><a href="spenden.html">Spenden</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-kopf">Rechtliches</p>
+        <ul class="footer-links">
+          <li><a href="impressum.html">Impressum</a></li>
+          <li><a href="datenschutz.html">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-unten">
+      © 2026 Förderverein zur Unterstützung bolivianischer Straßenkinder e.V.
+    </p>
+  </footer>
+
+</body>
+</html>
