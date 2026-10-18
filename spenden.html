@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spenden – Förderverein Bolivianische Straßenkinder</title>
+  <meta name="description" content="Jetzt spenden und Kindern in El Alto, Bolivien helfen. Per PayPal, Kreditkarte oder Überweisung.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* === DESIGN-TOKENS (identisch mit index.html) === */
+    :root {
+      --farbe-hintergrund:   #F7F4EF;
+      --farbe-text:          #1C1A17;
+      --farbe-text-weich:    #6B6560;
+      --farbe-akzent:        #1B4F72;
+      --farbe-akzent-hell:   #D6E8F5;
+      --farbe-spenden:       #E07B39;
+      --farbe-spenden-hover: #C96A2A;
+      --farbe-linie:         #DDD9D3;
+      --schrift-kopf:        'Lora', Georgia, serif;
+      --schrift-text:        'Inter', system-ui, sans-serif;
+      --radius:              6px;
+      --max-breite:          1080px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--schrift-text);
+      background: var(--farbe-hintergrund);
+      color: var(--farbe-text);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+    img { max-width: 100%; display: block; }
+    a   { color: inherit; }
+
+    /* === NAVIGATION (identisch mit index.html) === */
+    .nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--farbe-hintergrund);
+      border-bottom: 1px solid var(--farbe-linie);
+      padding: 0 1.5rem;
+    }
+    .nav-inner {
+      max-width: var(--max-breite); margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between; height: 60px;
+    }
+    .nav-logo {
+      font-family: var(--schrift-kopf); font-size: 1.05rem;
+      font-weight: 600; color: var(--farbe-akzent);
+      text-decoration: none; line-height: 1.2;
+    }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.875rem; font-weight: 500;
+      color: var(--farbe-text-weich); text-decoration: none; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--farbe-text); }
+    .nav-links a.aktiv { color: var(--farbe-akzent); }
+    .btn-spenden-nav {
+      background: var(--farbe-spenden); color: #fff !important;
+      padding: 0.45rem 1.1rem; border-radius: var(--radius);
+      font-weight: 500 !important; transition: background 0.15s !important;
+    }
+    .btn-spenden-nav:hover { background: var(--farbe-spenden-hover) !important; }
+
+    /* === SEITEN-HEADER === */
+    .seiten-header {
+      background: var(--farbe-akzent);
+      color: #fff;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .seiten-header h1 {
+      font-family: var(--schrift-kopf);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .seiten-header p {
+      font-size: 1.05rem;
+      opacity: 0.85;
+      max-width: 50ch;
+      margin: 0 auto;
+    }
+
+    /* === HAUPTLAYOUT === */
+    .spenden-layout {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* === SPENDENFORMULAR (links) === */
+    .spenden-box {
+      background: #fff;
+      border: 1px solid var(--farbe-linie);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .spenden-box-kopf {
+      padding: 1.5rem 1.75rem 0;
+    }
+
+    .spenden-box-kopf h2 {
+      font-family: var(--schrift-kopf);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .spenden-box-kopf p {
+      font-size: 0.875rem;
+      color: var(--farbe-text-weich);
+      margin-bottom: 1.25rem;
+    }
+
+    /* Tabs: Einmalig / Monatlich */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid var(--farbe-linie);
+      margin: 0 -1.75rem;
+      padding: 0 1.75rem;
+    }
+    .tab {
+      flex: 1; padding: 0.6rem 0;
+      font-size: 0.875rem; font-weight: 500;
+      background: none; border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--farbe-text-weich);
+      cursor: pointer; transition: color 0.15s, border-color 0.15s;
+      margin-bottom: -1px;
+    }
+    .tab.aktiv {
+      color: var(--farbe-akzent);
+      border-bottom-color: var(--farbe-akzent);
+    }
+
+    .spenden-box-inhalt { padding: 1.5rem 1.75rem; }
+
+    /* Betragsauswahl */
+    .betrag-raster {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-bottom: 0.75rem;
+    }
+    .betrag-btn {
+      padding: 0.6rem 0;
+      font-size: 0.9rem; font-weight: 500;
+      background: var(--farbe-hintergrund);
+      border: 1.5px solid var(--farbe-linie);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .betrag-btn:hover { border-color: var(--farbe-akzent); }
+    .betrag-btn.aktiv {
+      border-color: var(--farbe-akzent);
+      background: var(--farbe-akzent-hell);
+      color: var(--farbe-akzent);
+    }
+
+    /* Eigener Betrag */
+    .eigener-betrag {
+      display: none;
+      width: 100%;
+      padding: 0.6rem 0.875rem;
+      font-size: 0.9rem;
+      border: 1.5px solid var(--farbe-linie);
+      border-radius: var(--radius);
+      background: var(--farbe-hintergrund);
+      color: var(--farbe-text);
+      margin-bottom: 0.75rem;
+    }
+    .eigener-betrag:focus {
+      outline: none;
+      border-color: var(--farbe-akzent);
+    }
+    .eigener-betrag.sichtbar { display: block; }
+
+    /* Wirkungstext */
+    .wirkung {
+      font-size: 0.8rem;
+      color: var(--farbe-text-weich);
+      margin-bottom: 1.25rem;
+      min-height: 1.2rem;
+    }
+
+    /* PayPal-Button */
+    .btn-paypal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 0.875rem;
+      background: #FFC439;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 500;
+      color: #003087;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-decoration: none;
+      margin-bottom: 1rem;
+    }
+    .btn-paypal:hover { background: #f0b429; }
+
+    /* Trennlinie "oder" */
+    .oder {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.8rem; color: var(--farbe-text-weich);
+    }
+    .oder::before, .oder::after {
+      content: ''; flex: 1;
+      height: 1px; background: var(--farbe-linie);
+    }
+
+    /* IBAN-Zeile */
+    .iban-zeile {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      background: var(--farbe-hintergrund);
+      border: 1px solid var(--farbe-linie);
+      border-radius: var(--radius);
+      padding: 0.6rem 0.875rem;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+    .iban-label {
+      font-size: 0.75rem;
+      color: var(--farbe-text-weich);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .iban-wert { font-family: monospace; font-size: 0.875rem; }
+    .kopier-btn {
+      background: none;
+      border: 1px solid var(--farbe-linie);
+      border-radius: 4px;
+      padding: 3px 10px;
+      font-size: 0.75rem;
+      color: var(--farbe-text-weich);
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+    .kopier-btn:hover { background: #fff; }
+
+    /* Vertrauens-Signale */
+    .vertrauen {
+      display: flex; flex-wrap: wrap; gap: 0.75rem;
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--farbe-linie);
+    }
+    .vertrauen-pill {
+      font-size: 0.75rem;
+      color: var(--farbe-text-weich);
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    /* === WIRKUNGSSEITE (rechts) === */
+    .wirkung-seite h3 {
+      font-family: var(--schrift-kopf);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--farbe-akzent);
+    }
+
+    .wirkung-liste { list-style: none; display: flex; flex-direction: column; gap: 0.875rem; }
+
+    .wirkung-item {
+      display: flex; gap: 0.875rem; align-items: flex-start;
+    }
+    .wirkung-betrag {
+      font-family: var(--schrift-kopf);
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--farbe-spenden);
+      min-width: 3rem;
+      line-height: 1.3;
+    }
+    .wirkung-beschreibung {
+      font-size: 0.875rem;
+      color: var(--farbe-text-weich);
+      line-height: 1.5;
+    }
+
+    .zitat-box {
+      margin-top: 2rem;
+      padding: 1.25rem;
+      background: var(--farbe-akzent-hell);
+      border-radius: var(--radius);
+      border-left: 3px solid var(--farbe-akzent);
+    }
+    .zitat-text {
+      font-family: var(--schrift-kopf);
+      font-size: 0.95rem;
+      color: var(--farbe-akzent);
+      line-height: 1.6;
+      margin-bottom: 0.5rem;
+    }
+    .zitat-quelle {
+      font-size: 0.8rem;
+      color: var(--farbe-text-weich);
+    }
+
+    /* === FOOTER === */
+    footer {
+      background: var(--farbe-text); color: rgba(255,255,255,0.75);
+      padding: 2.5rem 1.5rem; margin-top: 4rem;
+    }
+    .footer-inner {
+      max-width: var(--max-breite); margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 2rem;
+    }
+    .footer-name { font-family: var(--schrift-kopf); font-size: 1rem; color: #fff; margin-bottom: 0.5rem; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 0.4rem; }
+    .footer-links a { font-size: 0.875rem; color: rgba(255,255,255,0.65); text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: #fff; }
+    .footer-kopf { font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(255,255,255,0.4); margin-bottom: 0.75rem; }
+    .footer-unten { max-width: var(--max-breite); margin: 1.5rem auto 0; padding-top: 1.25rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.8rem; color: rgba(255,255,255,0.35); }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 700px) {
+      .spenden-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .betrag-raster { grid-template-columns: repeat(2, 1fr); }
+      .nav-links { display: none; }
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVIGATION -->
+  <nav class="nav" role="navigation" aria-label="Hauptnavigation">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Förderverein<br>Bolivianische Straßenkinder</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Startseite</a></li>
+        <li><a href="ueber-uns.html">Über uns</a></li>
+        <li><a href="projekte.html">Projekte</a></li>
+        <li><a href="aktuelles.html">Aktuelles</a></li>
+        <li><a href="kontakt.html">Kontakt</a></li>
+        <li><a href="spenden.html" class="btn-spenden-nav aktiv">Jetzt spenden</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- SEITEN-HEADER -->
+  <header class="seiten-header">
+    <h1>Jetzt spenden</h1>
+    <p>Deine Spende hilft Kindern in El Alto, Bolivien — direkt, transparent und wirksam.</p>
+  </header>
+
+  <main>
+    <div class="spenden-layout">
+
+      <!-- LINKE SPALTE: Spendenformular -->
+      <div class="spenden-box" role="region" aria-label="Spendenformular">
+        <div class="spenden-box-kopf">
+          <h2>Betrag wählen</h2>
+          <p>100 % deiner Spende gehen direkt nach Bolivien.</p>
+
+          <!-- Tabs -->
+          <div class="tabs" role="tablist">
+            <button class="tab aktiv" id="tab-einmalig" role="tab" aria-selected="true" onclick="wechselTab('einmalig')">Einmalig</button>
+            <button class="tab" id="tab-monatlich" role="tab" aria-selected="false" onclick="wechselTab('monatlich')">Monatlich</button>
+          </div>
+        </div>
+
+        <div class="spenden-box-inhalt">
+
+          <!-- Betragsauswahl -->
+          <div class="betrag-raster" role="group" aria-label="Betrag auswählen">
+            <button class="betrag-btn" onclick="waehleBetrag(this, 5)">5 €</button>
+            <button class="betrag-btn aktiv" onclick="waehleBetrag(this, 15)">15 €</button>
+            <button class="betrag-btn" onclick="waehleBetrag(this, 30)">30 €</button>
+            <button class="betrag-btn" onclick="waehleBetrag(this, null)">Andere</button>
+          </div>
+
+          <!-- Eigener Betrag -->
+          <input
+            type="number"
+            id="eigener-betrag"
+            class="eigener-betrag"
+            placeholder="Eigener Betrag in €"
+            min="1"
+            aria-label="Eigenen Betrag eingeben"
+            oninput="aktualisiereEigenerBetrag(this.value)"
+          >
+
+          <!-- Wirkungstext -->
+          <p class="wirkung" id="wirkung-text" aria-live="polite">
+            15 € ermöglichen Unterkunft für ein Kind für eine Woche.
+          </p>
+
+          <!-- PayPal-Button -->
+          <!-- WICHTIG: Ersetze DEINE-PAYPAL-ID mit deiner echten PayPal-ID -->
+          <a
+            href="https://www.paypal.com/donate/?hosted_button_id=DEINE-PAYPAL-ID"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-paypal"
+            id="paypal-btn"
+            aria-label="Mit PayPal spenden"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M7.5 21H3L4.5 9H9C12.5 9 15 10.5 14.5 14C14 17.5 11 18 8.5 18H6.5L5.5 21H7.5Z" fill="#003087"/>
+              <path d="M9.5 18H12C15.5 18 18 16.5 17.5 13C17 9.5 14 9 11 9H9L7.5 21H9.5" fill="#009cde" opacity="0.7"/>
+            </svg>
+            Mit PayPal spenden — <span id="btn-betrag">15 €</span>
+          </a>
+
+          <!-- Trennlinie -->
+          <div class="oder" aria-hidden="true">oder per Überweisung</div>
+
+          <!-- IBAN -->
+          <!-- WICHTIG: Ersetze mit der echten IBAN des Vereins -->
+          <div class="iban-zeile">
+            <div>
+              <span class="iban-label">IBAN</span>
+              <span class="iban-wert" id="iban-text">DE12 3456 7890 1234 5678 90</span>
+            </div>
+            <button class="kopier-btn" onclick="kopiereIBAN()" aria-label="IBAN kopieren">
+              Kopieren
+            </button>
+          </div>
+          <div class="iban-zeile">
+            <div>
+              <span class="iban-label">Verwendungszweck</span>
+              <span>Spende Förderverein Bolivia</span>
+            </div>
+          </div>
+
+          <!-- Vertrauens-Signale -->
+          <div class="vertrauen" aria-label="Vertrauenshinweise">
+            <span class="vertrauen-pill">✓ Spendenquittung auf Anfrage</span>
+            <span class="vertrauen-pill">✓ Eingetragener Verein</span>
+            <span class="vertrauen-pill">✓ SSL-gesichert</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RECHTE SPALTE: Wirkung -->
+      <aside aria-label="Wirkung deiner Spende">
+        <h3>Was deine Spende bewirkt</h3>
+        <ul class="wirkung-liste">
+          <li class="wirkung-item">
+            <span class="wirkung-betrag">5 €</span>
+            <span class="wirkung-beschreibung">kauft Schulmaterial für ein Kind für einen Monat</span>
+          </li>
+          <li class="wirkung-item">
+            <span class="wirkung-betrag">15 €</span>
+            <span class="wirkung-beschreibung">ermöglicht Unterkunft und Mahlzeiten für eine Woche</span>
+          </li>
+          <li class="wirkung-item">
+            <span class="wirkung-betrag">30 €</span>
+            <span class="wirkung-beschreibung">finanziert Mahlzeiten für drei Kinder für einen Monat</span>
+          </li>
+          <li class="wirkung-item">
+            <span class="wirkung-betrag">60 €</span>
+            <span class="wirkung-beschreibung">deckt alle Grundbedürfnisse eines Kindes für einen Monat</span>
+          </li>
+        </ul>
+
+        <div class="zitat-box">
+          <p class="zitat-text">„Jeder Euro der hier ankommt, verändert das Leben eines Kindes direkt."</p>
+          <p class="zitat-quelle">— Projektleitung vor Ort, El Alto</p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer role="contentinfo">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-name">Förderverein zur Unterstützung<br>bolivianischer Straßenkinder e.V.</p>
+        <p style="font-size: 0.85rem; line-height: 1.6;">Wir sind ein eingetragener gemeinnütziger Verein.<br>Spenden sind steuerlich absetzbar.</p>
+      </div>
+      <div>
+        <p class="footer-kopf">Seiten</p>
+        <ul class="footer-links">
+          <li><a href="ueber-uns.html">Über uns</a></li>
+          <li><a href="projekte.html">Projekte</a></li>
+          <li><a href="aktuelles.html">Aktuelles</a></li>
+          <li><a href="spenden.html">Spenden</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-kopf">Rechtliches</p>
+        <ul class="footer-links">
+          <li><a href="impressum.html">Impressum</a></li>
+          <li><a href="datenschutz.html">Datenschutz</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="footer-unten">© 2026 Förderverein zur Unterstützung bolivianischer Straßenkinder e.V.</p>
+  </footer>
+
+  <script>
+    // === ZUSTAND ===
+    let aktuellerBetrag = 15;
+    let istMonatlich = false;
+
+    const wirkungen = {
+      5:  '5 € kaufen Schulmaterial für ein Kind für einen Monat.',
+      15: '15 € ermöglichen Unterkunft und Mahlzeiten für eine Woche.',
+      30: '30 € finanzieren Mahlzeiten für drei Kinder einen Monat lang.',
+      60: '60 € decken alle Grundbedürfnisse eines Kindes für einen Monat.',
+    };
+
+    // === TAB WECHSELN ===
+    function wechselTab(tab) {
+      istMonatlich = tab === 'monatlich';
+      document.getElementById('tab-einmalig').classList.toggle('aktiv', !istMonatlich);
+      document.getElementById('tab-monatlich').classList.toggle('aktiv', istMonatlich);
+      document.getElementById('tab-einmalig').setAttribute('aria-selected', !istMonatlich);
+      document.getElementById('tab-monatlich').setAttribute('aria-selected', istMonatlich);
+      aktualisiereAnzeige();
+    }
+
+    // === BETRAG WÄHLEN ===
+    function waehleBetrag(btn, betrag) {
+      document.querySelectorAll('.betrag-btn').forEach(b => b.classList.remove('aktiv'));
+      btn.classList.add('aktiv');
+
+      const eingabe = document.getElementById('eigener-betrag');
+      if (betrag === null) {
+        eingabe.classList.add('sichtbar');
+        eingabe.focus();
+        aktuellerBetrag = null;
+        document.getElementById('wirkung-text').textContent = 'Gib deinen Wunschbetrag ein.';
+        document.getElementById('btn-betrag').textContent = '…';
+      } else {
+        eingabe.classList.remove('sichtbar');
+        aktuellerBetrag = betrag;
+        aktualisiereAnzeige();
+      }
+    }
+
+    // === EIGENER BETRAG ===
+    function aktualisiereEigenerBetrag(wert) {
+      const n = parseInt(wert);
+      if (!isNaN(n) && n > 0) {
+        aktuellerBetrag = n;
+        const suffix = istMonatlich ? ' €/Monat' : ' €';
+        document.getElementById('btn-betrag').textContent = n + suffix;
+        document.getElementById('wirkung-text').textContent = n + ' € — vielen Dank für deine Unterstützung!';
+      }
+    }
+
+    // === ANZEIGE AKTUALISIEREN ===
+    function aktualisiereAnzeige() {
+      if (!aktuellerBetrag) return;
+      const suffix = istMonatlich ? ' €/Monat' : ' €';
+      document.getElementById('btn-betrag').textContent = aktuellerBetrag + suffix;
+      document.getElementById('wirkung-text').textContent =
+        wirkungen[aktuellerBetrag] || aktuellerBetrag + ' € — vielen Dank für deine Unterstützung!';
+    }
+
+    // === IBAN KOPIEREN ===
+    function kopiereIBAN() {
+      const iban = document.getElementById('iban-text').textContent;
+      navigator.clipboard.writeText(iban).catch(() => {});
+      const btn = event.currentTarget;
+      btn.textContent = '✓ Kopiert';
+      setTimeout(() => { btn.textContent = 'Kopieren'; }, 2000);
+    }
+  </script>
+
+</body>
+</html>
